@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}">Listar</title>
+</head>
+<body>
+
+<div th:if="${param.error != null}" th:text="${param.error}"></div>
+<div th:if="${param.success != null}" th:text="${param.success}"></div>
+
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/form}">CREAR +</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>PRECIO</th>
+            <th>FECHA</th>
+            <th>CATEGORIA</th>
+            <th>EDITAR</th>
+            <th>ELIMINAR</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="producto: ${productos}">
+            <td><a th:href="@{/ver/} + ${producto.id}" th:text="${#strings.abbreviate(producto.id, 10)}"></a></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="${#numbers.formatCurrency(producto.precio)}"></td>
+            <td th:text="${#calendars.format(producto.createAt, 'dd/MM/yyyy')}"></td>
+            <td th:text="${producto.categoria.nombre}"></td>
+            <td><a th:href="@{/form/} + ${producto.id}">EDITAR</a></td>
+            <td><a th:href="@{/eliminar/} + ${producto.id}" onclick="return confirm('Esta seguro que desea aliminar este producto?')">ELIMINAR</a></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
